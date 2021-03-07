@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../SpaceInvadersJS"
+		},
+		{
+			"path": "../../../../../Downloads/space_invaders-master"
+		},
+		{
+			"path": "../../../../../Downloads/js-space-invaders-master"
+		},
+		{
+			"path": "../../../../../Downloads/space_invaders-master 2"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "SpaceInvaders"
+	}
+}
