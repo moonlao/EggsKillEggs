@@ -47,4 +47,7 @@ class Eggs {
      setSpeed( speed ){
         this.speed = speed;
     }*/
+
+
+    //god pleaes
 }
