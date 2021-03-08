@@ -12,10 +12,33 @@ let screenHow = false;
 
 let pngGoodEgg;
 
+let goodEgg;
+let badEggs;
+let evilEggs = [];
 
+
+let eggCircles;
+let eggElipses;
+let eggFlowers;
+let eggHearts;
+let eggLines;
+let eggOther;
+let eggRombos;
+let eggWaves;
 
 let screenPaused;
 let screenGameover;
+
+
+
+// crear lista de balas
+
+
+//
+goodEgg = new GoodEgg(450, 950, 1, 2);
+
+
+
 
 
 function preload(){
@@ -28,6 +51,16 @@ function preload(){
   screenHow = loadImage('data/instructions.png');
 
   pngGoodEgg = loadImage('data/goodegg.png');
+
+  eggCircles = loadImage('data/eggcircles.png');
+  eggElipses = loadImage('data/eggelipses.png');
+  eggFlowers = loadImage('data/eggflowers.png');
+  eggHearts = loadImage('data/egghearts.png');
+  eggLines = loadImage('data/egglines.png');
+  eggOther = loadImage('data/eggother.png');
+  eggRombos = loadImage('data/eggsrombos.png');
+  eggWaves = loadImage('data/eggwaves.png');
+
 }
 
 function setup() {
@@ -42,7 +75,9 @@ function setup() {
 
   //pngGoodEgg = loadImage('data/goodegg.png');
 
- 
+    
+    monda();
+    
 
   
 }
@@ -72,9 +107,60 @@ function draw() {
             break;
         
         case 1:
+
+            
             gameScreen();
 
-            paintHero();
+            for(i= 0; i< evilEggs.length; i++){
+                if( evilEggs[i].getType()== 0){
+                    image(eggCircles, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                }
+                if( evilEggs[i].getType()== 1){
+                    image(eggHearts, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 2){
+                    image(eggWaves, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 3){
+                    image(eggElipses, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 4){
+                    image(eggLines, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 5){
+                    image(eggRombos, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 6){
+                    image(eggFlowers, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                if( evilEggs[i].getType()== 7){
+                    image(eggOther, evilEggs[i].getPosX(), evilEggs[i].getPosY());
+                } 
+                evilEggs[i].move();
+                
+            }
+
+            //paintHero();
+
+            text(mouseX+","+mouseY, mouseX, mouseY);
+            fill(250);
+
+            
+
+            //pintar enemigos
+
+            //recorrer arraylist para pintar enemigos
+
+            //recorrer arraylist para pintar balas
+
+            //arraylist para eliminar enemigo
+
+            //pintar heroe
+
+
+
+
+
             //GoodEgg.prototype.paintGoodEgg();
 
           
@@ -82,6 +168,14 @@ function draw() {
             //GoodEgg.paintGoodEgg();
             //GoodEgg.GoodEgg(0,0,1,2);
             break;
+        
+        case 2: 
+            
+        //imagen de game over
+        //resumen de tiempo y score
+
+            break;
+
 
     }
 
@@ -125,7 +219,14 @@ function startPlayer(){
     image(pngGoodEgg, , 790);
 }*/
 
+function monda(){
+    //crear lista de enemigos
+    for (let i = 0; i < 6; i++){
+        e = new BadEggs(160 + i*240, 0, 1, 10);
+        evilEggs[i]= e;
+    }
 
+}
 
 
 
@@ -181,6 +282,7 @@ function mousePressed() {
         case 0:
             if(mouseX>1000 && mouseX<1226 && mouseY>680 && mouseY<828 && screen == 0){
                 screen = 1;
+                
             }
             break;
         case 1:
@@ -207,4 +309,22 @@ function mousePressed() {
 }
 
 }*/
+
+
+
+function keyPressed(){
+
+    if(keyCode== RIGHT_ARROW){
+        //método que mueva a la derecha
+    }
+
+    if(keyCode == LEFT_ARROW){
+        //método que mueve a la izquierda
+    }
+
+    if(keyCode == 32){
+        //crear una nueva bala en la pos del heroe
+        
+    }
+}
 

@@ -1,27 +1,23 @@
 class Eggs {
-    //var posX, posY, health, speed;
 
+    posX;
+    posY;
+    health;
+    speed;
 
-    constructor (posX, posY){
-        this.posX = posX;
-        this.posY = posY;
-
-    }
-
-
-    /*constructor ( posX, posY, health, speed){
+    constructor (posX, posY, health, speed){
     this.posX = posX;
     this.posY = posY;
     this.health = health;
     this.speed = speed;
-    }*/
+    }
 
      getPosX() {
-        return posX;
+        return this.posX;
     }
 
      getPosY() {
-        return posY;
+        return this.posY;
     }
 
      setPosX( posX ) {
@@ -32,8 +28,8 @@ class Eggs {
         this.posY = posY;
     }
 
-    /* getHealth(){
-        return health;
+    getHealth(){
+        return this.health;
     }
 
      setHealth( health ){
@@ -41,12 +37,12 @@ class Eggs {
     }
 
      getSpeed(){
-        return speed;
+        return this.speed;
     }
 
      setSpeed( speed ){
         this.speed = speed;
-    }*/
+    }
 
 
     //god pleaes

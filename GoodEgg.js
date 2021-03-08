@@ -1,9 +1,9 @@
 class GoodEgg extends Eggs{
 
     
-    speedGoodEgg = 10;
-    tamGoodEgg= 80;
-    health = 2;
+    //speedGoodEgg = 10;
+    //tamGoodEgg= 80;
+    //health = 2;
 
     
 
@@ -13,28 +13,13 @@ class GoodEgg extends Eggs{
 
 
 
-    goodEgg( posX, posY){
-        this.posX = width/2;
-        this.posY = 790;
-        super(posX, posY);
-    }
+    //goodEgg( posX, posY){
+    //    super(450, 790);
+    //}
 
-    paintGoodEgg(){
-
-        fill(255);
-        rect(80, 80, 80);
-    }
-
-    
-/*goodEgg( posX, posY, health, speed){
-    this.posx = width/2;
-    this.posY = 790;
-    this.health = 1;
-    this.speed = 2;
-    
-
-    super(posX, posY, health, speed);
-}*/
+constructor (posX, posY, health, speed){
+    super(450, 790, 1, 2);
+}
 
 moveLeft() {
     posX = (posX - (1*speed));

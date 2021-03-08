@@ -3,7 +3,7 @@ class BadEggs extends Eggs{
     eggCircles = 0;
     eggHearts = 1;
     eggWaves = 2;
-    eggEllipses = 3;
+    eggElipses = 3;
     eggLines = 4;
     eggRombos = 5;
     eggFlowers = 6;
@@ -11,9 +11,10 @@ class BadEggs extends Eggs{
 
     type;
 
-    BadEggs( posX, posY, health, speed, type){
+
+    constructor (posX, posY, health, speed){
         super(posX, posY, health, speed);
-        this.type = type;
+        this.type = 0;
     }
 
     getType(){
@@ -26,11 +27,11 @@ class BadEggs extends Eggs{
 
 
     move(){
-        if( type == eggCircles || type == eggHearts || type == eggWaves || type == eggEllipses){
-            posY = (posY - 1 * (this.speed)/ 2);
+        if( this.type == eggCircles || this.type == eggHearts || this.type == eggWaves || this.type == eggElipses){
+            this.posY = (this.posY + 10 );
 
-        }else if (type == eggLines || type == eggRombos || type == eggFlowers || type == eggOther ){
-            posY = (posY - 1 * this.speed);
+        }else if (this.type == eggLines || this.type == eggRombos || this.type == eggFlowers || this.type == eggOther ){
+            this.posY = (this.posY + 1 * this.speed);
         }
     }
 
