@@ -18,42 +18,25 @@ class GoodEgg extends Eggs{
     //}
 
 constructor (posX, posY, health, speed){
-    super(450, 790, 1, 2);
+    super(posX, posY, health, speed);
 }
 
 moveLeft() {
-    posX = (posX - (1*speed));
+    if(this.posX >= 0){
+    this.posX = (this.posX - (1*this.speed));
+    }else{
+        this.posX = 0
+    }
 }
 
 moveRight(){
-    posX = (posX + (1*speed));
+    if(this.posX <=1300){
+    this.posX = (this.posX + (1*this.speed));
+    }else{
+        this.posX= 1300;
+    }
 }
 
-getHealth() {
-    return this.health;
-}
-
-setHealth( health){
-    this.health = health;
-}
-
-//paintGoodEgg(){
-  //  imageMode(CENTER);
-    //image( this.pngGoodEgg, posX, posY);
-//}
-
-getPosX(){
-    return posX;
-
-}
-
-setPosX( posX ){
-    this.posX = posX 
-}
-
-getPosY(){
-    return posY;
-}
 
 
 }

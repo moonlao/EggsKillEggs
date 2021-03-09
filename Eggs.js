@@ -45,7 +45,4 @@ class Eggs {
     }
 
 
-    //god pleaes
-
-    //ples hab merciiii
 }
