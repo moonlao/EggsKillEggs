@@ -9,6 +9,8 @@ class BadEggs extends Eggs{
         this.type = type;
     }
 
+    
+
     getType(){
         return this.type;
     }

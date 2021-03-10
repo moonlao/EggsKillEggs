@@ -12,6 +12,8 @@ let screenHow = false;
 
 let pngGoodEgg;
 
+let bullet = [];
+
 let goodEgg;
 let badEggs;
 let evilEggs = [];
@@ -25,10 +27,19 @@ let eggOther;
 let eggRombos;
 let eggWaves;
 
+let pngBullet;
+
 var positions = [160, 400, 640, 880, 1120];
+
+let score = 0;
+
+var timer = 0;
 
 let screenPaused;
 let screenGameover;
+let pngGameOver;
+
+var enemycount = 0;
 
 // crear lista de balas
 
@@ -50,6 +61,8 @@ function preload(){
   eggOther = loadImage('data/eggother.png');
   eggRombos = loadImage('data/eggsrombos.png');
   eggWaves = loadImage('data/eggwaves.png');
+  pngBullet = loadImage('data/bullet.png');
+  pngGameOver = loadImage('data/gameover.png');
 }
 
 
@@ -59,6 +72,9 @@ function setup() {
     monda();
 
     startGoodEgg();
+
+    
+
 }
 
 
@@ -74,8 +90,7 @@ function draw() {
             
             image(remolinoCover, 650, 450);
             image(huevoCover, 650, 450);
-            text(mouseX+","+mouseY, mouseX, mouseY);
-            fill(250);
+            
 
             if (showHow == true && screen == 0){
                 image(screenHow, 650, 450);
@@ -87,13 +102,11 @@ function draw() {
 
             gameScreen();
 
-            /*for (var i = 0; i < 10; i++) {
-                showCiclic();
-            }*/
-            
+            monda();            
             
             showBadEggs();
             paintGoodEgg();
+            //paintBullet();
 
             if(keyIsDown(39)){
                 goodEgg.moveRight();
@@ -104,10 +117,42 @@ function draw() {
             }
 
             
-            
-            text(mouseX+","+mouseY, mouseX, mouseY);
-            fill(250);
+        
+            for( i= 0; i < bullet.length; i++){    
+                    
+                image(pngBullet, bullet[i].getPosX(), bullet[i].getPosY(), 30);
+                bullet[i].move();
+            }
+            kill();
+            removeBullet();
 
+            showScore();
+            
+            for(i = 0; i < evilEggs.length; i++){
+                if(evilEggs[i].getPosY() >= goodEgg.getPosY() - 80 && 
+                    evilEggs[i].getPosX() >= goodEgg.getPosX() - 90 &&
+                    evilEggs[i].getPosX() <= goodEgg.getPosX() + 90){
+                    screen = 2;
+                    console.log("se topo con el webo bueno");
+                    break;
+                }
+                
+                if(evilEggs[i].getPosY() >= 890){
+                    screen = 2;
+                    console.log("se paso de vrga");
+                    break;
+                }
+
+            }
+
+            if (frameCount % 60 == 0 ) {
+                timer ++;
+            }
+
+            showTimer();
+            
+
+            
             //pintar enemigos
 
             //recorrer arraylist para pintar enemigos
@@ -124,6 +169,7 @@ function draw() {
         case 2: 
             
             //imagen de game over
+            image(pngGameOver, 650,450, 1300, 900);
             //resumen de tiempo y score
 
             break;
@@ -133,12 +179,21 @@ function draw() {
 }
 
 
+function showTimer(){
+    fill(255);
+    textSize(30);
+    text("Time in segs: "+timer, 1080, 800, 200, 200);
+    text("enemi "+enemycount, 0, 0, 200, 200);
+}
 
 
 function coverScreen() {
     imageMode(CENTER);
     image(backgroundCover, 650, 450, 1300, 900);
 }
+
+
+
 
 
 
@@ -161,20 +216,85 @@ function randomIntFromInterval(min, max) { // min and max included
 function monda(){
     //crear lista de enemigos 160, 400, 640, 880, 1120
     
-    for (let i = 0; i < 50; i++){
+    if ( timer <= 15){
+        if (enemycount < 8){
         p = Math.floor (Math.random() * 5);
         if( p == 0 || p == 2 || p == 4){
-            e = new BadEggs(positions[p], -5000+i*100, 1, 100, Math.floor (Math.random() * 3));
-            evilEggs[i]= e;
+            e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100 , Math.floor (Math.random() * 3));
+            for (i=0; i<evilEggs.length; i++){
+                if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                   e.setPosY(e.getPosY()+200);
+                }
+           }
+            evilEggs.push(e);
+            enemycount++;
 
         }else if (p == 1 || p == 3){
-            e = new BadEggs(positions[p], -5000+i*100, 1, 100, randomIntFromInterval(4, 7));
-            evilEggs[i]= e;
+            e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100, randomIntFromInterval(4, 7));
+            for (i=0; i<evilEggs.length; i++){
+                if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                   e.setPosY(e.getPosY()+200);
+                }
+           }
+            evilEggs.push(e);
+            enemycount++;
         }
-        
-        
     }
+
+    }if (timer <= 30 && timer > 15){
+        p = Math.floor (Math.random() * 5);
+        if (enemycount < 16){
+            if( p == 0 || p == 2 || p == 4){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 150, Math.floor (Math.random() * 3));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                       e.setPosY(e.getPosY()+200);
+                    }
+               }
+                evilEggs.push(e);
+                enemycount++;
+
+            }  else if (p == 1 || p == 3){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 150, randomIntFromInterval(4, 7));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                       e.setPosY(e.getPosY()+200);
+                    }
+               }
+                evilEggs.push(e);
+                enemycount++;
+            }
+        }
+    
+    
+    } if (timer <= 45 && timer > 30){
+        p = Math.floor (Math.random() * 5);
+        if (enemycount < 24){
+            if( p == 0 || p == 2 || p == 4){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 3, 200, Math.floor (Math.random() * 3));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                       e.setPosY(e.getPosY()+200);
+                    }
+               }
+                evilEggs.push(e);
+                enemycount++;
+
+            }else if (p == 1 || p == 3){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 3, 200, randomIntFromInterval(4, 7));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                       e.setPosY(e.getPosY()+200);
+                    }
+               }
+                evilEggs.push(e);
+                enemycount++;
+            }
+        }
+    }
+        
 }
+
 
 
 
@@ -218,19 +338,58 @@ function gameScreen() {
 
 
 
-function createNewBadEggs(){
-    for(i = 6; i <= 50; i++){
-        e = new BadEggs(160 + i*240, 0, 1, 10);
-        evilEggs[i]= e; 
+function removeBullet(){
+    for(i= 0; i < bullet.length; i++){
+        if(bullet[i].getPosY() < -10){
+            bullet.splice(i, 1);
+        }
     }
 }
 
-function removeDeadBadEggs(){
-    for(i= 0; i< evilEggs.length; i++){
-        if(evilEggs[i].getHealth() <= 0){
-            evilEggs.splice(i, 1);
-        }
+
+
+
+function createNewBullet(){
+    bullet.push(new Bullets(goodEgg.getPosX(), goodEgg.getPosY(), 1, 0.5)); 
+    //b = new Bullets(goodEgg.getPosX(), goodEgg.getPosY(), 1, 10);
+    //bullet[i] = b;
 }
+
+function kill(){
+    for ( i= 0; i< evilEggs.length; i++){
+        for( j = 0; j< bullet.length; j++){
+            console.log(bullet.length+",");
+            if(bullet[j].getPosX() >= evilEggs[i].getPosX() - 60 &&
+                bullet[j].getPosX() <= evilEggs[i].getPosX() + 60 &&
+                bullet[j].getPosY() >= evilEggs[i].getPosY() - 50 &&
+                bullet[j].getPosY() <= evilEggs[i].getPosY() + 50){
+                    if(evilEggs[i].getHealth() > 0){
+                        evilEggs[i].setHealth(evilEggs[i].getHealth() - bullet[j].getDamage());
+                        if( evilEggs[i].getHealth() == 0){
+                            evilEggs.splice(i, 1);
+                            score = (score + 10);
+                            
+                        }
+                    }else if(evilEggs[i].getHealth() <= 0 ){
+                        evilEggs.splice(i, 1);
+                        
+                        score = (score + 10);
+                        
+
+                    }
+                    bullet.splice(j, 1);
+                    
+                }
+        } 
+    }
+}
+
+
+
+function showScore(){
+    fill(255);
+    textSize(30);
+    text("Score:"+score, 20, 800, 200, 200);
 }
 
 
@@ -285,19 +444,11 @@ function mousePressed() {
 }
 
 
-/*function keyPressed(){
-
-    if(keyCode== 39 && screen == 1){
-        goodEgg.moveRight();
-    }
-
-    if(keyCode == 37 && screen == 1){
-        goodEgg.moveLeft();
-    }
+function keyPressed(){
 
     if(keyCode == 32){
         //crear una nueva bala en la pos del heroe
-        
+        createNewBullet();
     }
-}*/
+}
 
