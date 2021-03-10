@@ -39,8 +39,9 @@ let pngGameOver;
 
 var enemycount = 0;
 
-
-
+//let font;
+let font2;
+let webofinal;
 
 function preload(){
 
@@ -61,6 +62,9 @@ function preload(){
   eggWaves = loadImage('data/eggwaves.png');
   pngBullet = loadImage('data/bullet.png');
   pngGameOver = loadImage('data/gameover.png');
+  //font = loadFont('data/DPComiccopy.ttf');
+  font2 = loadFont('data/font2.ttf');
+  webofinal = loadImage('data/finalgoodegg.png')
 }
 
 
@@ -88,8 +92,8 @@ function draw() {
             coverScreen();
             
             //imágenes
-            image(remolinoCover, 650, 450);
-            image(huevoCover, 650, 450);
+            image(remolinoCover, 650, 450,600,600);
+            image(huevoCover, 650, 450, 2000, 2000);
             
             // condicional para mostrar las instrucciones
             if (showHow == true && screen == 0){
@@ -176,9 +180,11 @@ function draw() {
 
             //resumen de tiempo y score
             fill(255);
-            textSize(30);
-            text("Time in segs: "+timer, 400, 500, 200, 200);
-            text("Score: "+score, 400, 600, 200, 200);
+            textSize(40);
+            textFont(font2);
+            text("Time in segs: "+timer, 380, 450, 400, 200);
+            text("Score: "+score, 380, 600, 200, 200);
+            image(webofinal, 850, 550, 250, 240);
 
             break;
 
@@ -192,6 +198,7 @@ function draw() {
 function showTimer(){
     fill(255);
     textSize(30);
+    textFont(font2);
     text("Time in segs: "+timer, 1080, 800, 200, 200);
     //text("enemi "+enemycount, 0, 0, 200, 200);
 }
@@ -232,7 +239,7 @@ function monda(){
         if (enemycount < 8){
             p = Math.floor (Math.random() * 5);
             if( p == 0 || p == 2 || p == 4){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100 , Math.floor (Math.random() * 3));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 900000, Math.floor (Math.random() * 3));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                         e.setPosY(e.getPosY()+200);
@@ -242,7 +249,7 @@ function monda(){
                 enemycount++;
 
             }else if (p == 1 || p == 3){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100, randomIntFromInterval(4, 7));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 500000, randomIntFromInterval(4, 7));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                         e.setPosY(e.getPosY()+200);
@@ -257,7 +264,7 @@ function monda(){
         p = Math.floor (Math.random() * 5);
         if (enemycount < 16){
             if( p == 0 || p == 2 || p == 4){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 150, Math.floor (Math.random() * 3));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 15, 900000*2, Math.floor (Math.random() * 3));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
@@ -267,7 +274,7 @@ function monda(){
                 enemycount++;
 
                 } else if (p == 1 || p == 3){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 150, randomIntFromInterval(4, 7));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 15, 500000*2, randomIntFromInterval(4, 7));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
@@ -283,7 +290,7 @@ function monda(){
         p = Math.floor (Math.random() * 5);
         if (enemycount < 24){
             if( p == 0 || p == 2 || p == 4){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 3, 200, Math.floor (Math.random() * 3));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 50, 900000*3, Math.floor (Math.random() * 3));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
@@ -293,7 +300,7 @@ function monda(){
                 enemycount++;
 
             }else if (p == 1 || p == 3){
-                e = new BadEggs(positions[p], -100 -(50*enemycount), 3, 200, randomIntFromInterval(4, 7));
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 50, 500000*3, randomIntFromInterval(4, 7));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
@@ -391,6 +398,7 @@ function kill(){
 function showScore(){
     fill(255);
     textSize(30);
+    textFont(font2);
     text("Score:"+score, 20, 800, 200, 200);
 }
 
