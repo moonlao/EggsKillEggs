@@ -1,14 +1,14 @@
-let backgroundCover; // Declarar variable 'img'.
+//Declaración de variables
+let backgroundCover;
 let remolinoCover;
-let backgroundCoverYes;
-let backgroundCoverHow;
+
 let backgroundGame;
 let screen = 0;
 let showHow;
 let showYes;
-let showCover = true;
 
-let screenHow = false;
+
+let screenHow;
 
 let pngGoodEgg;
 
@@ -35,18 +35,16 @@ let score = 0;
 
 var timer = 0;
 
-let screenPaused;
-let screenGameover;
 let pngGameOver;
 
 var enemycount = 0;
-
-// crear lista de balas
 
 
 
 
 function preload(){
+
+    //carga de imágenes
   backgroundCover = loadImage('data/backgroundcover.png'); // Cargar la imagen
   remolinoCover = loadImage('data/remolino.png');
   huevoCover = loadImage('data/huevocover.png')
@@ -68,12 +66,12 @@ function preload(){
 
 function setup() {
     createCanvas(1300, 900);
-  
+    
+    //inicialización de método que crea los enemigos
     monda();
 
+    //inicialización de método que crea un Good Egg
     startGoodEgg();
-
-    
 
 }
 
@@ -82,16 +80,18 @@ function setup() {
 
 function draw() {
     
+    // switch para cambiar entre pantallas
     switch(screen){
         case 0:
 
-            //movingRemolino();
+            // llamando método que pinta el fondo
             coverScreen();
             
+            //imágenes
             image(remolinoCover, 650, 450);
             image(huevoCover, 650, 450);
             
-
+            // condicional para mostrar las instrucciones
             if (showHow == true && screen == 0){
                 image(screenHow, 650, 450);
             }
@@ -100,68 +100,70 @@ function draw() {
         
         case 1:
 
+            // llamando método para pintar fondo
             gameScreen();
 
+            // llamando método para crear Bad Eggs
             monda();            
             
+            // método para pintar Bad Eggs
             showBadEggs();
-            paintGoodEgg();
-            //paintBullet();
 
+            // método para pintar Good Egg
+            paintGoodEgg();
+            
+            // condicional para llamar los métodos que mueven el Good Egg
             if(keyIsDown(39)){
                 goodEgg.moveRight();
             }
-
             if(keyIsDown(37)){
                 goodEgg.moveLeft();
             }
 
             
-        
+            // recorriendo el array de balas para pintarlas
             for( i= 0; i < bullet.length; i++){    
                     
                 image(pngBullet, bullet[i].getPosX(), bullet[i].getPosY(), 30);
                 bullet[i].move();
             }
-            kill();
-            removeBullet();
 
+
+            // método para matar y remover del array al enemigo y la bala
+            kill();
+
+
+            // método para pintar el puntaje
             showScore();
             
+
+            // recorriendo el arreglo de Bad Eggs para que se acabe el juego
+            // si un Bad Egg toca al Good Egg o si un Bad Egg llega a la parte inferior del lienzo
             for(i = 0; i < evilEggs.length; i++){
                 if(evilEggs[i].getPosY() >= goodEgg.getPosY() - 80 && 
                     evilEggs[i].getPosX() >= goodEgg.getPosX() - 90 &&
                     evilEggs[i].getPosX() <= goodEgg.getPosX() + 90){
                     screen = 2;
-                    console.log("se topo con el webo bueno");
+                    
                     break;
                 }
-                
                 if(evilEggs[i].getPosY() >= 890){
                     screen = 2;
-                    console.log("se paso de vrga");
+                    
                     break;
                 }
-
             }
 
+
+            // agregando una unidad al timer cada 60 frames
             if (frameCount % 60 == 0 ) {
                 timer ++;
             }
 
+
+            // metodo para pintar el timer
             showTimer();
             
-
-            
-            //pintar enemigos
-
-            //recorrer arraylist para pintar enemigos
-
-            //recorrer arraylist para pintar balas
-
-            //arraylist para eliminar enemigo
-
-            //pintar heroe
 
             break;
         
@@ -170,7 +172,13 @@ function draw() {
             
             //imagen de game over
             image(pngGameOver, 650,450, 1300, 900);
+
+
             //resumen de tiempo y score
+            fill(255);
+            textSize(30);
+            text("Time in segs: "+timer, 400, 500, 200, 200);
+            text("Score: "+score, 400, 600, 200, 200);
 
             break;
 
@@ -179,14 +187,17 @@ function draw() {
 }
 
 
+
+// pinta el tiempo
 function showTimer(){
     fill(255);
     textSize(30);
     text("Time in segs: "+timer, 1080, 800, 200, 200);
-    text("enemi "+enemycount, 0, 0, 200, 200);
+    //text("enemi "+enemycount, 0, 0, 200, 200);
 }
 
 
+// método para pintar el fondo de la primera pantalla
 function coverScreen() {
     imageMode(CENTER);
     image(backgroundCover, 650, 450, 1300, 900);
@@ -194,52 +205,53 @@ function coverScreen() {
 
 
 
-
-
-
+// pinta el Good Egg
 function paintGoodEgg(){
     image(pngGoodEgg, goodEgg.getPosX(), goodEgg.getPosY(), 95, 140);
 }
 
 
-
+// crea el Good Egg
 function startGoodEgg(){
     goodEgg = new GoodEgg(650, 812, 2, 10);
 }
 
 
-
-function randomIntFromInterval(min, max) { // min and max included 
+// método para crear un tipo de Bad Egg random
+function randomIntFromInterval(min, max) { 
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+}
 
+
+// crea lista de enemigos
 function monda(){
-    //crear lista de enemigos 160, 400, 640, 880, 1120
+
+    //posiciones de enegmigos 160, 400, 640, 880, 1120
     
     if ( timer <= 15){
         if (enemycount < 8){
-        p = Math.floor (Math.random() * 5);
-        if( p == 0 || p == 2 || p == 4){
-            e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100 , Math.floor (Math.random() * 3));
-            for (i=0; i<evilEggs.length; i++){
-                if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
-                   e.setPosY(e.getPosY()+200);
+            p = Math.floor (Math.random() * 5);
+            if( p == 0 || p == 2 || p == 4){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100 , Math.floor (Math.random() * 3));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                        e.setPosY(e.getPosY()+200);
+                    }
                 }
-           }
-            evilEggs.push(e);
-            enemycount++;
+                evilEggs.push(e);
+                enemycount++;
 
-        }else if (p == 1 || p == 3){
-            e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100, randomIntFromInterval(4, 7));
-            for (i=0; i<evilEggs.length; i++){
-                if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
-                   e.setPosY(e.getPosY()+200);
-                }
-           }
+            }else if (p == 1 || p == 3){
+                e = new BadEggs(positions[p], -100 -(50*enemycount), 1, 100, randomIntFromInterval(4, 7));
+                for (i=0; i<evilEggs.length; i++){
+                    if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
+                        e.setPosY(e.getPosY()+200);
+                    }
+            }
             evilEggs.push(e);
             enemycount++;
         }
-    }
+        }   
 
     }if (timer <= 30 && timer > 15){
         p = Math.floor (Math.random() * 5);
@@ -250,17 +262,17 @@ function monda(){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
                     }
-               }
+                }
                 evilEggs.push(e);
                 enemycount++;
 
-            }  else if (p == 1 || p == 3){
+                } else if (p == 1 || p == 3){
                 e = new BadEggs(positions[p], -100 -(50*enemycount), 2, 150, randomIntFromInterval(4, 7));
                 for (i=0; i<evilEggs.length; i++){
                     if(e.getPosY()==evilEggs[i].getPosY() && e.getPosX()== evilEggs[i].getPosX()){
                        e.setPosY(e.getPosY()+200);
                     }
-               }
+                }
                 evilEggs.push(e);
                 enemycount++;
             }
@@ -298,7 +310,7 @@ function monda(){
 
 
 
-
+// método para recorrer el arreglo de Bad Eggs y pintarlos
 function showBadEggs(){
     for(i= 0; i< evilEggs.length; i++){
         if( evilEggs[i].getType()== 0){
@@ -331,30 +343,20 @@ function showBadEggs(){
 }
 
 
-
+// pinta el fondo del juego
 function gameScreen() {
     image(backgroundGame, 650, 450, 1300, 900);
 }
 
 
-
-function removeBullet(){
-    for(i= 0; i < bullet.length; i++){
-        if(bullet[i].getPosY() < -10){
-            bullet.splice(i, 1);
-        }
-    }
-}
-
-
-
-
+// crea una bala nueva
 function createNewBullet(){
     bullet.push(new Bullets(goodEgg.getPosX(), goodEgg.getPosY(), 1, 0.5)); 
-    //b = new Bullets(goodEgg.getPosX(), goodEgg.getPosY(), 1, 10);
-    //bullet[i] = b;
+    
 }
 
+
+// recorre el arreglo de Bad Eggs, eliminando los que están muertos y agregando el puntaje, además de eliminar la bala
 function kill(){
     for ( i= 0; i< evilEggs.length; i++){
         for( j = 0; j< bullet.length; j++){
@@ -385,7 +387,7 @@ function kill(){
 }
 
 
-
+// método que pinta el puntaje
 function showScore(){
     fill(255);
     textSize(30);
@@ -438,7 +440,7 @@ function mousePressed() {
             break;
 
         case 1:
-            // presionables : botón de pausa, y de resume i guess
+
             break;
     }
 }
